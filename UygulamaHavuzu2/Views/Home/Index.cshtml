@@ -1,0 +1,56 @@
+﻿
+
+@model List<UygulamaHavuzu2.Models.CardContent>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["title"] = "Bmi Calculator";
+}
+
+
+
+<header>
+    <div class="container text-center">
+
+        <!-- Logo -->
+        <div class="logo">
+            <h1><b>SSB Yazılım Park</b></h1>
+        </div>
+
+        <h1>App Container</h1>
+
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+
+        <div class="row">
+            @foreach (var card in Model)
+            {
+                <div class="col-md-4">
+
+
+                    <a href=@card.url>
+                        <div class="profile-card-2">
+
+
+                            <img src=@card.image class="img img-responsive" />
+                            <div class="profile-name">@card.title</div>
+
+
+
+                        </div>
+                    </a>
+                </div>
+            }
+
+
+
+
+        </div>
+    </div>
+</div>
+
+@section cssdefination{
+    <link href="~/css/style.css" rel="stylesheet" />
+}

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Random Quotes";
+}
+<div  id="quote-box" class="card rounded-border w-50 h-75 m-auto" >
+    <div class="card-body ">
+        <div class="row ">
+            <div class="col-md-12  col-sm-12">   <h2 id="quote-text" style="text-align:center">"Quotes go here"</h2></div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-4"></div>
+            <div class="col-md-4  col-sm-4"><h4 id="quote-author" style="text-align:center">-Author</h4></div>
+            <div class="col-md-4  col-sm-4"></div>
+        </div>
+        <div class="row">
+            <div id="twitter-icon" class="col-md-4  col-sm-4 text-center"><i class="fa-brands fa-twitter-square fa-5x" aria-hidden="true"><a></a></i></div>
+            <div class="col-md-4  col-sm-4"></div>
+            <div id="new-quote-icon" class="col-md-4  col-sm-4 text-center"><i class="fa fa-refresh fa-5x" aria-hidden="true" style="float:right"></i></div>
+        </div>
+       
+
+    </div>
+</div>
+
+
+
+<h6 id="signature">By Hakan KIRIK</h6>
+
+
+@section cssdefination{ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="~/css/RandomQuotesCss.css" rel="stylesheet" />
+}
+@section Scripts{ 
+    <script src="~/js/RandomQuotesJs.js"></script>
+}

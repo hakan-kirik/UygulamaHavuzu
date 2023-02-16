@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewData["Title"] = "Weather app";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IList<WeatherModels>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="row">
+
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="alertBox" class="alert alert-danger" role="alert" style="display:none;"></div>
+                        </div>
+                    </div>
+
+                    <form action="/" method="post" id="searchForm">
+                        <div class="input-group rounded px-5">
+                            <input type="search" id="searchBar" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" required="sehri giriniz" />
+                            <span class="input-group-text border-0" id="search-addon">
+                                 <button type="submit"  class="fas fa-search" onclick="searchFunc()"> </button>
+                            </span>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mt-5" id="searchWeather">
+                    @{ Html.RenderPartial("_weatherPartial", Model.First<WeatherModels>());}
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="row">
+
+                @foreach (var city in Model)
+                {
+
+                    <div class="col-12 col-md-6 col-sm-12 col-xs-12">
+                        <div class="card p-4 my-2">
+
+                            <div class="d-flex">
+                                <h6 class="flex-grow-1">@city.Name</h6>
+                                <h6>@city.Sys.Country</h6>
+                            </div>
+
+                            <div class="d-flex flex-column temp mt-5 mb-3">
+                                <h1 class="mb-0 font-weight-bold" id="heading"> @Math.Round(city.Main.Temp)&deg; C</h1>
+                                <span class="small grey">@city.Weather[0].Description</span>
+                            </div>
+
+                            <div class="d-flex">
+                                <div class="temp-details flex-grow-1">
+                                    <p class="my-1">
+                                        <img src="https://i.imgur.com/B9kqOzp.png" height="17px">
+
+                                        <span> @city.Wind.Speed m/s</span>
+                                    </p>
+
+                                    <p class="my-1">
+                                        <i class="fa fa-tint mr-2" aria-hidden="true"></i>
+                                        <span> @city.Main.Humidity% </span>
+                                    </p>
+
+                                    <p class="my-1">
+                                        <img src="https://i.imgur.com/wGSJ8C5.png" height="17px">
+                                        <span>@city.Sys.sunsetTime </span>
+
+
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <img src="~/img/@city.Weather[0].Icon+.png" width="100px">
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                }
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+@section Scripts{
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+        });
+        function searchFunc() {
+            var value = document.getElementById("searchBar").value;
+            if (value != "") {
+                $.ajax({
+                    method: "post",
+                    url: "/Weather/SearchWeather",//bu kisimi degisecek
+                    data: { "value": value }
+                }).done(function (htmlRespond) {
+                    if (htmlRespond != "") {
+                        document.getElementById("searchWeather").innerHTML = htmlRespond;
+                        document.getElementById("searchBar").value = "";
+                    } else {
+                        document.getElementById("alertBox").innerHTML = value + " sehir bulunamadi.";
+                        $("#alertBox").fadeIn();
+                        setTimeout(function () { $("#alertBox").fadeOut(); }, 3000);
+                    }
+
+                });
+            }
+            }
+
+
+    </script>
+
+}
+
+@section cssdefination{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="~/css/weathercss.css" rel="stylesheet" />
+}
+

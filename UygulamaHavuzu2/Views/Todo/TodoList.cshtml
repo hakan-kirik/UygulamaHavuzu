@@ -1,0 +1,33 @@
+﻿@model IEnumerable<TodoModel>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<ul id="TodoULTag" class="list-group mb-0">
+    @foreach (var todo in Model)
+    {
+
+
+
+        <li class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+            <div class="d-flex align-items-center">
+                @if (!todo.IsDone)
+                {
+                    <input onclick="editFunc(@todo.Id)" class="form-check-input me-2" type="checkbox" value="" aria-label="..." />
+                    @todo.Content
+                }
+                else
+                {
+                    <input onclick="editFunc(@todo.Id)" class="form-check-input me-2" type="checkbox" value="" aria-label="..." checked />
+                    <s> @todo.Content</s>
+                }
+
+
+            </div>
+            <a href="#!" onclick="deleteFunc(@todo.Id)" id=@todo.Id data-mdb-toggle="tooltip" title="Remove item">
+                <i class="fas fa-times text-primary"></i>
+            </a>
+        </li>
+    }
+
+</ul>

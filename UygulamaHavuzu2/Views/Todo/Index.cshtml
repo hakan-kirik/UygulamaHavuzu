@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "Todo App";
+
+}
+
+@model IEnumerable<TodoModel>
+
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+
+                <div class="card" style="border-radius: 15px;">
+                    <div id="alertBox" class="alert alert-success" role="alert" style="display:none;">
+
+                    </div>
+                    <div class="card-body p-5">
+
+                        <h6 class="mb-3">Todo List App</h6>
+
+                        <form id="todoForm" class="d-flex justify-content-center align-items-center mb-4">
+                            <div class="form-outline flex-fill">
+                                <input type="text" id="todoText" asp class="form-control form-control-lg" placeholder="Ne yapmak istersiniz ?" required />
+
+                            </div>
+                            <button type="submit" onclick="addFunc()" class="btn btn-primary btn-lg ms-2">Ekle</button>
+                        </form>
+                        <div id="TodoList">
+                            @{Html.RenderPartial("TodoList");}
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section cssdefination{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+@section scripts{
+    <script>
+        function editFunc(id) {
+
+            $.ajax({
+                method: "POST",
+                url: "/Todo/EditAndAdd",
+                data: { "id":id }
+            })
+                .done(function (responseHtml) {
+
+
+                    document.getElementById('TodoList').innerHTML = responseHtml;
+
+                });
+        }
+        function deleteFunc(id) {
+            $.ajax({
+                method: "POST",
+                url: "/Todo/Remove",
+                data: { "id": id }
+            })
+                .done(function () {
+
+                    document.getElementById(id).parentElement.remove();
+
+
+                });
+        }
+
+        function addFunc() {
+
+            var todoContent = document.getElementById("todoText").value;
+            $.ajax({
+                method: "POST",
+                url: "/Todo/AddTodo",
+                data: { "Content":todoContent }
+            })
+                .done(function (msg) {
+                    if (msg.length !== 0) {
+
+                        document.getElementById("alertBox").innerHTML = todoContent + " basarili bir sekilde kayit edildi.";
+                        $("#alertBox").fadeIn();
+                        setTimeout(function () { $("#alertBox").fadeOut(); }, 3000);
+                        $("#TodoULTag").append(msg);
+                        document.getElementById("todoText").value = "";
+                    } else {
+
+                    }
+
+
+                });
+        }
+        document.getElementById("todoForm").addEventListener('submit', (e) => { e.preventDefault();});
+
+    </script>
+}
